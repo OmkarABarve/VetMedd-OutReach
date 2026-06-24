@@ -1,0 +1,14 @@
+Subject: One platform for your clinic, shop and grooming - {company}
+
+Hi {company} team,
+
+I came across {company} in {location} and noticed you offer more than one service. VetApp brings it all together in one place:
+
+- Clinic: appointments, patient records, and client reminders
+- Shop: repeat customers, supplies, and loyalty
+- Grooming: online bookings and fewer no-shows
+
+Would you be open to a quick 10-minute look at how it fits a business like yours?
+
+Warm regards,
+{sender_name}

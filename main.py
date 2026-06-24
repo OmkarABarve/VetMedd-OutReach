@@ -71,6 +71,36 @@ def _select_channel(row):
     return None, "", "skipped_no_channel"
 
 
+def _whatsapp_recipients(row, primary: str) -> list[str]:
+    """Build the list of WhatsApp numbers to message for a contact.
+
+    Always includes the primary number. Also includes "WhatsApp Number 2" when
+    WHATSAPP_NUMBER_2_ENABLED is on and that optional column has a value.
+    """
+    recipients = [primary]
+    if config.WHATSAPP_NUMBER_2_ENABLED:
+        second = str(row.get("WhatsApp Number 2", "") or "").strip()
+        if second and second != primary:
+            recipients.append(second)
+    return recipients
+
+
+def _send_whatsapp_to_contact(row, primary: str, body: str):
+    """Send to one or more WhatsApp numbers. Returns (success, note).
+
+    Success is True if at least one number was messaged successfully. The note
+    summarizes each attempt so failures on a second number are visible in the log.
+    """
+    recipients = _whatsapp_recipients(row, primary)
+    notes = []
+    any_success = False
+    for number in recipients:
+        result = send_whatsapp(number, body)
+        any_success = any_success or result.success
+        notes.append(f"{number}: {'ok' if result.success else 'fail'} ({result.note})")
+    return any_success, " | ".join(notes)
+
+
 def process_row(df, row_index, path) -> str:
     """Process a single contact row. Returns the final status string."""
     row = df.loc[row_index]
@@ -98,8 +128,11 @@ def process_row(df, row_index, path) -> str:
     if scenario == "engaged" and loader.has_response_text(responses):
         tone = sentiment.detect_sentiment(responses)
 
+    # --- Franchise detection (gated by FRANCHISE_ENABLED) ------------------
+    is_franchise = config.FRANCHISE_ENABLED and loader.is_franchise(row)
+
     # --- Build message -----------------------------------------------------
-    msg = message_builder.build_message(row, scenario, tone)
+    msg = message_builder.build_message(row, scenario, tone, is_franchise)
 
     # --- GUARD 2: channel selection ----------------------------------------
     channel, recipient, skip_reason = _select_channel(row)
@@ -112,12 +145,16 @@ def process_row(df, row_index, path) -> str:
     # --- Send --------------------------------------------------------------
     if channel == "email":
         result = send_email(recipient, msg["subject"], msg["body"])
+        send_success, send_note = result.success, result.note
     else:
-        result = send_whatsapp(recipient, f"{msg['subject']}\n\n{msg['body']}")
+        # WhatsApp: message the primary number plus an optional second number.
+        send_success, send_note = _send_whatsapp_to_contact(
+            row, recipient, f"{msg['subject']}\n\n{msg['body']}"
+        )
 
-    if not result.success:
-        updater.log_action(company, classification, channel, scenario, "failed", result.note)
-        print(f"[FAIL] {company} via {channel}: {result.note}")
+    if not send_success:
+        updater.log_action(company, classification, channel, scenario, "failed", send_note)
+        print(f"[FAIL] {company} via {channel}: {send_note}")
         return "failed"
 
     # --- Success: increment + persist atomically ---------------------------
@@ -130,7 +167,7 @@ def process_row(df, row_index, path) -> str:
         print(f"[WARN] {company}: sent but could not save count: {exc}")
         return "sent_no_save"
 
-    updater.log_action(company, classification, channel, scenario, "sent", result.note)
+    updater.log_action(company, classification, channel, scenario, "sent", send_note)
     print(f"[SENT] {company} via {channel} ({scenario}/{msg['template']})")
     return "sent"
 

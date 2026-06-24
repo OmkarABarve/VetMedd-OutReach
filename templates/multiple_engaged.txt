@@ -1,0 +1,10 @@
+Subject: Great to hear from you, {company}!
+
+Hi {company} team,
+
+Thanks so much for getting back to me{sentiment_clause}. It's great to connect.
+
+Since {company} spans clinic, shop and grooming, I'd love to walk you through how VetApp ties all three together for businesses in {location}. What does your availability look like this week?
+
+Warm regards,
+{sender_name}

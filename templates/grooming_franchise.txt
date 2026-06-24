@@ -1,0 +1,10 @@
+Subject: Consistent bookings across every salon - {company}
+
+Hi {company} team,
+
+I saw that {company} runs as a franchise with multiple grooming locations near {location}. VetApp helps grooming chains keep every salon's calendar full with online bookings, automated reminders, and group-wide reporting.
+
+Would you be open to a short demo designed for multi-location grooming brands?
+
+Best,
+{sender_name}

@@ -1,0 +1,10 @@
+Subject: One platform for all your stores - {company}
+
+Hi {company} team,
+
+I noticed {company} operates as a franchise with multiple stores around {location}. VetApp helps pet retail chains drive repeat customers, sync promotions, and manage loyalty across every outlet from one dashboard.
+
+Could I share a quick overview built for multi-store operators like you?
+
+Cheers,
+{sender_name}

@@ -1,0 +1,10 @@
+Subject: Following up - VetApp for {company}
+
+Hi {company} team,
+
+Just following up on my earlier note. Since {company} runs clinic, shop and grooming services, a single platform can save your team a lot of day-to-day admin in {location}.
+
+VetApp covers appointments, retail loyalty, and grooming bookings in one place. Happy to share a short demo whenever suits you.
+
+Warm regards,
+{sender_name}

@@ -1,0 +1,14 @@
+Subject: One platform across all your locations and services - {company}
+
+Hi {company} team,
+
+I noticed {company} runs as a franchise offering clinic, shop and grooming services around {location}. VetApp brings every branch and every service line into one system:
+
+- Clinic: appointments and patient records across locations
+- Shop: loyalty and promotions synced chain-wide
+- Grooming: bookings and reminders for every salon
+
+Plus group-level reporting for head office. Could we set up a short walkthrough tailored to a franchise rollout?
+
+Warm regards,
+{sender_name}

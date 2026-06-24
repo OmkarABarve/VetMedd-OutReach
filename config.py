@@ -43,6 +43,17 @@ EMAIL_ENABLED = True
 # enable WhatsApp fallback when a contact has no email address.
 WHATSAPP_ENABLED = False
 
+# Some contacts may have a SECOND WhatsApp number (optional "WhatsApp Number 2"
+# column). Most won't. When this is True AND that column has a value, we ALSO
+# message the second number. Requires WHATSAPP_ENABLED to be True as well.
+WHATSAPP_NUMBER_2_ENABLED = False
+
+# Franchise handling. When True, we look at the optional "Level" column (or a
+# boolean "Franchise" column). If it says "Franchise", we use a franchise-specific
+# template for that classification (clinic / shop / grooming). Most contacts won't
+# be franchises, so this is off by default.
+FRANCHISE_ENABLED = False
+
 # ----------------------------------------------------------------------------
 #  EMAIL ACCOUNT (SendGrid)
 #  >>> To change the sending Gmail/host address, set SENDGRID_FROM_EMAIL in .env <<<
@@ -71,10 +82,13 @@ NLP_CONFIDENCE_THRESHOLD = float(os.getenv("NLP_CONFIDENCE_THRESHOLD", "0.6"))
 CLASSIFICATION_LABELS = ["vet clinic", "pet shop", "grooming services"]
 
 # Maps a (possibly messy) classification string to the template filename prefix.
+# "multiple" is used when a contact spans more than one category (e.g. a place
+# that is both a clinic and a shop) -> we pitch clinic + shop + grooming together.
 CLASSIFICATION_TO_PREFIX = {
     "vet clinic": "vet_clinic",
     "pet shop": "petshop",
     "grooming services": "grooming",
+    "multiple": "multiple",
 }
 
 # Keyword fallback used when the NLP model is not confident enough.
@@ -108,3 +122,17 @@ REQUIRED_COLUMNS = [
     "Responses",
     "Don't Message",
 ]
+
+# Optional columns. They are NOT required; the loader only normalizes them when
+# they are present, and never adds them to a file that doesn't already have them.
+#   "WhatsApp Number 2" -> a second WhatsApp number to also message (see WHATSAPP_NUMBER_2_ENABLED)
+#   "Level"             -> contact tier; the value "Franchise" triggers franchise templates
+#   "Franchise"         -> alternative boolean signal for franchise (TRUE/True/1/yes)
+OPTIONAL_COLUMNS = [
+    "WhatsApp Number 2",
+    "Level",
+    "Franchise",
+]
+
+# The word we look for (case-insensitive) to flag a contact as a franchise.
+FRANCHISE_MARKER = "franchise"

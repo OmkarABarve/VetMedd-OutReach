@@ -11,6 +11,12 @@ Template files live in templates/{prefix}_{scenario}.txt where prefix is derived
 from the classification. If the classification is unknown/empty, we fall back to
 templates/fallback_first.txt.
 
+Special cases:
+  - Franchise contacts (is_franchise=True) use templates/{prefix}_franchise.txt,
+    overriding the scenario, so we pitch a multi-location rollout.
+  - A classification containing "multiple" maps to the "multiple" prefix, which
+    pitches clinic + shop + grooming together.
+
 Each template's FIRST line is "Subject: ..."; everything after the following blank
 line is the body. Placeholders: {company}, {location}, {sender_name}, {sentiment_clause}.
 """
@@ -42,10 +48,31 @@ def decide_scenario(times_communicated: int, responses) -> str:
     return "reminder"
 
 
-def _template_path(classification: str, scenario: str) -> Path:
-    """Resolve the template file, falling back to fallback_first when needed."""
-    prefix = config.CLASSIFICATION_TO_PREFIX.get(classification)
+def _classification_prefix(classification: str):
+    """Map a classification string to a template prefix (or None if unknown).
+
+    A value containing "multiple" routes to the combined "multiple" pitch.
+    """
+    classification = (classification or "").strip().lower()
+    if not classification:
+        return None
+    if "multiple" in classification:
+        return "multiple"
+    return config.CLASSIFICATION_TO_PREFIX.get(classification)
+
+
+def _template_path(classification: str, scenario: str, is_franchise: bool = False) -> Path:
+    """Resolve the template file, falling back to fallback_first when needed.
+
+    Franchise contacts use {prefix}_franchise.txt (scenario is overridden); if that
+    file is missing we gracefully fall back to the normal scenario template.
+    """
+    prefix = _classification_prefix(classification)
     if prefix:
+        if is_franchise:
+            franchise_candidate = config.TEMPLATES_DIR / f"{prefix}_franchise.txt"
+            if franchise_candidate.exists():
+                return franchise_candidate
         candidate = config.TEMPLATES_DIR / f"{prefix}_{scenario}.txt"
         if candidate.exists():
             return candidate
@@ -65,19 +92,21 @@ def _split_subject_body(raw: str):
     return subject, body
 
 
-def build_message(row, scenario: str, sentiment: str = "neutral") -> dict:
+def build_message(row, scenario: str, sentiment: str = "neutral",
+                  is_franchise: bool = False) -> dict:
     """Render the message for a contact row.
 
     Args:
         row: a pandas Series / dict-like contact row.
         scenario: 'first' | 'reminder' | 'engaged'.
         sentiment: 'positive' | 'neutral' | 'negative' (only used for 'engaged').
+        is_franchise: when True, prefer the franchise template for the classification.
 
     Returns:
         {"subject": str, "body": str, "template": str}
     """
     classification = str(row.get("Classification", "")).strip().lower()
-    template_path = _template_path(classification, scenario)
+    template_path = _template_path(classification, scenario, is_franchise)
     raw = template_path.read_text(encoding="utf-8")
     subject_tmpl, body_tmpl = _split_subject_body(raw)
 
