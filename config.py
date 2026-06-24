@@ -26,7 +26,7 @@ LOGS_DIR = BASE_DIR / "logs"
 # Input contact sheet. The loader accepts .xlsx OR .csv.
 # It will use the first file that exists from this list (in order).
 CONTACT_FILE_CANDIDATES = [
-    DATA_DIR / "contacts.xlsx",
+    # DATA_DIR / "contacts.xlsx",
     DATA_DIR / "contact.csv",
     DATA_DIR / "contacts.csv",
 ]

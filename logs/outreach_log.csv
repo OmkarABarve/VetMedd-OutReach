@@ -1,0 +1,20 @@
+timestamp,company_name,classification,channel,scenario,status,notes
+2026-06-24 11:06:13,Dr. Paws Veterinary Clinic,vet clinic,email,first,failed,sendgrid exception: 'latin-1' codec can't encode characters in position 7-26: ordinal not in range(256)
+2026-06-24 11:06:14,Happy Pets Store,pet shop,email,first,failed,sendgrid exception: 'latin-1' codec can't encode characters in position 7-26: ordinal not in range(256)
+2026-06-24 11:06:15,Fluffy Grooming Salon,grooming services,email,reminder,failed,sendgrid exception: 'latin-1' codec can't encode characters in position 7-26: ordinal not in range(256)
+2026-06-24 11:10:53,Dr. Paws Veterinary Clinic,vet clinic,email,first,failed,sendgrid exception: 'latin-1' codec can't encode characters in position 7-26: ordinal not in range(256)
+2026-06-24 11:10:54,Happy Pets Store,pet shop,email,first,failed,sendgrid exception: 'latin-1' codec can't encode characters in position 7-26: ordinal not in range(256)
+2026-06-24 11:10:55,Fluffy Grooming Salon,grooming services,email,reminder,failed,sendgrid exception: 'latin-1' codec can't encode characters in position 7-26: ordinal not in range(256)
+2026-06-24 11:10:56,City Animal Hospital,vet clinic,email,engaged,failed,sendgrid exception: 'latin-1' codec can't encode characters in position 7-26: ordinal not in range(256)
+2026-06-24 11:10:57,Pet Supplies Mart,pet shop,-,first,skipped_whatsapp_disabled,no usable channel
+2026-06-24 11:13:14,Whiskers & Co,,-,first,skipped_no_channel,no usable channel
+2026-06-24 11:13:15,Old Town Vet,vet clinic,-,-,skipped_flag,Don't Message = True
+2026-06-24 11:14:29,Posh Paws Spa,grooming services,-,engaged,skipped_whatsapp_disabled,no usable channel
+2026-06-24 11:20:20,Dr. Paws Veterinary Clinic,vet clinic,email,first,sent,sendgrid status 202
+2026-06-24 11:20:22,Happy Pets Store,pet shop,email,first,sent,sendgrid status 202
+2026-06-24 11:20:23,Fluffy Grooming Salon,grooming services,email,reminder,sent,sendgrid status 202
+2026-06-24 11:20:25,City Animal Hospital,vet clinic,email,engaged,sent,sendgrid status 202
+2026-06-24 11:20:26,Pet Supplies Mart,pet shop,-,first,skipped_whatsapp_disabled,no usable channel
+2026-06-24 11:20:57,Whiskers & Co,,-,first,skipped_no_channel,no usable channel
+2026-06-24 11:20:58,Old Town Vet,vet clinic,-,-,skipped_flag,Don't Message = True
+2026-06-24 11:21:00,Posh Paws Spa,grooming services,-,engaged,skipped_whatsapp_disabled,no usable channel
