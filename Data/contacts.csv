@@ -1,0 +1,9 @@
+Company Name,Times Communicated,Email ID,Location,WhatsApp Number,Classification,Responses,Don't Message
+Dr. Paws Veterinary Clinic,0,contact@drpaws.example,Mumbai,+919800000001,vet clinic,0,False
+Happy Pets Store,0,hello@happypets.example,Pune,+919800000002,pet shop,0,False
+Fluffy Grooming Salon,1,care@fluffygroom.example,Delhi,+919800000003,grooming services,0,False
+City Animal Hospital,2,info@cityanimal.example,Bengaluru,+919800000004,vet clinic,2,"Thanks, this looks great! Tell me more.",False
+Pet Supplies Mart,0,,Chennai,+919800000005,pet shop,0,False
+Whiskers & Co,0,,Hyderabad,,,0,False
+Old Town Vet,3,oldtown@vet.example,Kolkata,,vet clinic,0,True
+Posh Paws Spa,1,bookings@poshpaws.example,Goa,+919800000008,,Not interested right now.,False

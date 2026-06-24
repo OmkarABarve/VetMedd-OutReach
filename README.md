@@ -190,6 +190,90 @@ TWILIO_WHATSAPP_FROM=whatsapp:+14155238886
 NLP_CONFIDENCE_THRESHOLD=0.6
 ```
 
+> Start by copying the provided template: `copy .env.example .env` (Windows) or `cp .env.example .env`, then fill in your keys.
+
+---
+
+## How to Change Accounts (Gmail sender & WhatsApp number)
+
+Everything you need to swap accounts lives in **one place: the `.env` file**. No code edits required.
+
+### Change the host / sending Gmail address (email)
+Edit these lines in `.env`:
+
+```env
+SENDGRID_FROM_EMAIL=youraccount@gmail.com   # <-- the Gmail/host address mail is sent FROM
+SENDGRID_API_KEY=your_sendgrid_api_key      # <-- your SendGrid API key
+SENDGRID_FROM_NAME=VetApp Team              # <-- display name recipients see
+```
+
+The from-address must be a **SendGrid Verified Single Sender** (a Gmail address works). Verify it at https://app.sendgrid.com/settings/sender_auth. These are read in `config.py` and used by `emailer.py` (both files have inline comments pointing here).
+
+### Change the WhatsApp sender number
+Edit these lines in `.env`:
+
+```env
+TWILIO_WHATSAPP_FROM=whatsapp:+14155238886   # <-- the WhatsApp number messages are sent FROM (keep the "whatsapp:" prefix)
+TWILIO_ACCOUNT_SID=your_twilio_account_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
+```
+
+---
+
+## Channels: Email now, WhatsApp later (feature flag)
+
+Right now **only email is active**. WhatsApp is fully implemented but switched OFF behind a flag in `config.py`:
+
+```python
+EMAIL_ENABLED = True
+WHATSAPP_ENABLED = False   # <-- flip to True later to enable WhatsApp fallback
+```
+
+While `WHATSAPP_ENABLED = False`, a contact with no email but a WhatsApp number is skipped and logged as `skipped_whatsapp_disabled` (so re-running after you enable the flag will pick them up). Flip the one boolean to `True` (and fill the Twilio values in `.env`) to activate WhatsApp.
+
+---
+
+## Input File (Data folder)
+
+Place your contact sheet in the `Data/` folder. The loader auto-detects, in this order:
+`Data/contacts.xlsx` -> `Data/contact.csv` -> `Data/contacts.csv`. A sample `Data/contacts.xlsx` is included.
+
+---
+
+## Configuration Knobs (`config.py`)
+
+Everything you'd normally want to tune lives in **one place** — `config.py` (secrets in `.env`, message copy in `templates/*.txt`). This section is the map of what's a simple knob vs. what needs a code edit.
+
+### Feature toggles (on/off switches)
+
+| Toggle | Where | Default | Effect |
+|---|---|---|---|
+| `EMAIL_ENABLED` | `config.py` | `True` | Turn the SendGrid email channel on/off |
+| `WHATSAPP_ENABLED` | `config.py` | `False` | Turn the Twilio WhatsApp fallback on/off (fully built, just gated) |
+| `APPOINTMENTS_ENABLED` | `config.py` | `True` | Book positive / action-required replies into `Data/appointments.csv` |
+| `RUN_MODE` | `config.py` | `"once"` | `"once"` (single pass, for cron/Task Scheduler) or `"daily"` (stay alive) |
+
+> Note: the **classifier** and **sentiment** stages have no dedicated on/off flag yet — they run automatically whenever needed. Add `CLASSIFICATION_ENABLED` / `SENTIMENT_ENABLED` flags if you want full parity.
+
+### Easy to change (config / `.env` / text files — no code edits)
+
+- **Paths & input file** — `BASE_DIR`, `DATA_DIR`, `CONTACT_FILE_CANDIDATES`, `LOG_FILE`, `APPOINTMENTS_FILE`
+- **Sending accounts** — all SendGrid/Twilio credentials via `.env` (`SENDGRID_*`, `TWILIO_*`)
+- **NLP** — `ZERO_SHOT_MODEL`, `SENTIMENT_MODEL`, `NLP_CONFIDENCE_THRESHOLD`, `CLASSIFICATION_LABELS`, `CLASSIFICATION_TO_PREFIX`, `CLASSIFICATION_KEYWORDS`
+- **Appointments** — `ACTION_REQUIRED_KEYWORDS` (which replies count as "action required")
+- **Scheduling** — `RUN_MODE`, `DAILY_RUN_TIME`, `SEND_DELAY_SECONDS`
+- **Schema** — `REQUIRED_COLUMNS`
+- **Message copy** — every template is a `.txt` file in `templates/`; edit wording with zero code changes
+
+### Tough to change (hardcoded in logic — requires a code edit)
+
+- **Decision tree** — first/reminder/engaged thresholds are hardcoded in `message_builder.decide_scenario`
+- **Sentiment vocab & label map** — `_POSITIVE_WORDS`, `_NEGATIVE_WORDS`, `_LABEL_MAP` are hardcoded in `sentiment.py`
+- **Sentiment phrasing** — `_SENTIMENT_CLAUSES` in `message_builder.py`
+- **Channel priority** — "email first" is hardcoded in `main._select_channel`
+- **Template placeholders** — the field set (`company`, `location`, `sender_name`, `sentiment_clause`) is hardcoded
+- **Misc constants** — the `+1` increment (`updater.py`), `_TRUE_VALUES` (`loader.py`), "free text = 1 reply" rule (`loader.response_count`), `LOG_HEADER`
+
 ---
 
 ## Running the Pipeline
@@ -204,6 +288,12 @@ python main.py
 # Run dashboard
 streamlit run dashboard.py
 ```
+
+### Scheduling
+There are two ways to run daily, controlled by `RUN_MODE` in `config.py`:
+
+- `RUN_MODE = "once"` (default): `python main.py` runs a single pass and exits. Best paired with OS scheduling (cron / Task Scheduler).
+- `RUN_MODE = "daily"`: `main.py` stays alive and triggers itself every day at `DAILY_RUN_TIME` (uses the `schedule` library).
 
 ### Schedule Daily (Linux/Mac cron)
 ```bash

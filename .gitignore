@@ -1,0 +1,20 @@
+# Secrets - never commit real credentials
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Atomic write temp files
+*.tmp
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# HuggingFace model cache (large)
+.cache/

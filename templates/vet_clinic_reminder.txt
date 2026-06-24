@@ -1,0 +1,10 @@
+Subject: Following up - VetApp for {company}
+
+Hi {company} team,
+
+Just following up on my earlier note. I know clinic days in {location} get busy, so no worries if it slipped by.
+
+VetApp can cut down the daily admin load for your front desk and vets. If it's worth a look, I'm happy to share a short demo at a time that suits you.
+
+Warm regards,
+{sender_name}

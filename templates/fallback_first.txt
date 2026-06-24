@@ -1,0 +1,10 @@
+Subject: Helping {company} grow with VetApp
+
+Hi {company} team,
+
+I came across {company} in {location} and wanted to introduce VetApp. We help pet care businesses manage bookings, client reminders, and records in one simple place, so you can focus on what you do best.
+
+Would you be open to a quick 10-minute overview?
+
+Warm regards,
+{sender_name}

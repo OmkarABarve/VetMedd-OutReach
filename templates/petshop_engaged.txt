@@ -1,0 +1,10 @@
+Subject: Thanks for replying, {company}!
+
+Hi {company} team,
+
+Thanks for getting back to me{sentiment_clause}. Glad this caught your interest.
+
+I'd love to show you how pet shops in {location} are using VetApp to bring in more repeat customers. When would be a good time for a quick chat?
+
+Cheers,
+{sender_name}

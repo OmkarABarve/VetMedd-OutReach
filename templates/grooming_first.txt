@@ -1,0 +1,10 @@
+Subject: Filling your grooming calendar, {company}
+
+Hi {company} team,
+
+I came across your grooming service in {location} and wanted to reach out. VetApp helps grooming businesses fill their calendar with online bookings, automated reminders, and happy repeat clients.
+
+Would you be open to a quick look at how it could work for you?
+
+Best,
+{sender_name}

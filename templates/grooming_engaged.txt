@@ -1,0 +1,10 @@
+Subject: Lovely to hear from you, {company}!
+
+Hi {company} team,
+
+Thanks so much for replying{sentiment_clause}. Great to connect.
+
+I'd love to walk you through how grooming services in {location} use VetApp to keep their calendar full. What does your availability look like this week?
+
+Best,
+{sender_name}

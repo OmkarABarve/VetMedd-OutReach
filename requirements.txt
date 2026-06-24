@@ -1,0 +1,12 @@
+# VetApp GTM Outreach Pipeline - Python dependencies
+# Install with: pip install -r requirements.txt
+
+pandas==2.2.2          # Read/manipulate/write the contacts spreadsheet
+openpyxl==3.1.5        # Excel (.xlsx) read/write engine used by pandas
+sendgrid==6.11.0       # Email sending API client (primary channel)
+twilio==9.2.3          # WhatsApp sending API client (behind a feature flag for now)
+transformers==4.43.3   # Zero-shot classification + sentiment models (HuggingFace)
+torch==2.3.1           # Backend for transformers inference
+streamlit==1.37.1      # Local monitoring dashboard
+python-dotenv==1.0.1   # Load secrets from .env
+schedule==1.2.2        # In-process daily scheduler (alternative to OS cron)

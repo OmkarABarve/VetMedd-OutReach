@@ -1,0 +1,10 @@
+Subject: Great to hear from you, {company}!
+
+Hi {company} team,
+
+Thanks so much for getting back to me{sentiment_clause}. It's great to connect.
+
+Based on what clinics like yours in {location} need, I'd love to set up a short walkthrough tailored to your workflow. What does your availability look like this week?
+
+Warm regards,
+{sender_name}

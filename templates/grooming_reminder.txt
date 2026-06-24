@@ -1,0 +1,10 @@
+Subject: Following up - VetApp for {company}
+
+Hi {company} team,
+
+Just following up on my earlier note. I know grooming days in {location} fill up fast, so no worries if this slipped by.
+
+VetApp can help reduce no-shows and keep your calendar full with automated reminders. Happy to share a short demo whenever suits you.
+
+Best,
+{sender_name}
